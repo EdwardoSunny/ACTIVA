@@ -11,7 +11,8 @@ def main():
     """
     # --- Example Task ---
     task = """
-Explain how a RNN works in detail.
+Please create an animation visualization to explain what amount Lind report as salaries should expense in its income statement for the month ended June 30, based on the question and explanation below: 
+Question: Lind Co.'s salaries expense of $10,000 is paid every other Friday for the 10 workdays then ending. Lind's employees do not work on Saturdays and Sundays. The last payroll was paid on June 18. On Wednesday, June 30, the month-end balance in the salaries expense account before accruals was $14,000. 
 """
 
     print(f"🎬 Generating Manim code for the task...")
