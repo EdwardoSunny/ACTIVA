@@ -60,10 +60,7 @@ python main.py
 - **Natural Language Input**: Describe accounting concepts in plain English
 - **Multi-Agent System**: Intelligent planning, coding, execution, and error recovery
 - **Multiple LLM Support**: Works with OpenAI, Claude, and Gemini
-- **Real-time Generation**: Automated creation of accounting process animations
 - **Error Recovery**: Automatic debugging and code correction
-- **Extended Timeouts**: 5-minute timeout for long-running operations
-- **Progress Updates**: Real-time status during generation and execution
 - **Cost-Effective**: Much cheaper than manual animation production
 
 ## 🤖 Supported LLM Providers
@@ -202,12 +199,6 @@ python main.py
 2. Create a feature branch
 3. Commit your changes
 4. Open a Pull Request
-
-## 📖 Documentation
-
-- **[Frontend Guide](docs/FRONTEND_README.md)** - Web interface usage
-- **Code Comments** - Detailed implementation documentation
-- **Example in main.py** - Sample usage and customization
 
 ## 🆘 Support
 
