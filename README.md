@@ -188,7 +188,7 @@ python main.py
 
 ## 📖 Documentation
 
-- **[Frontend Guide](FRONTEND_README.md)** - Web interface usage
+- **[Frontend Guide](docs/FRONTEND_README.md)** - Web interface usage
 - **Code Comments** - Detailed implementation documentation
 - **Example in main.py** - Sample usage and customization
 
