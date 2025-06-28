@@ -49,7 +49,7 @@ Then open `http://localhost:8000` in your browser.
 python main.py
 ```
 
-📖 **See [docs/FRONTEND_README.md](FRONTEND_README.md) for detailed frontend usage.**
+📖 **See [docs/FRONTEND_README.md](docs/FRONTEND_README.md) for detailed frontend usage.**
 
 ## 🎯 What is ACTIVA?
 
