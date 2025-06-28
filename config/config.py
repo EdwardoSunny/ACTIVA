@@ -8,14 +8,15 @@ import json
 from typing import Literal, Optional, cast
 
 # LLM Provider types
-ProviderType = Literal["openai", "claude", "gemini"]
+ProviderType = Literal["openai", "anthropic", "google"]
 
 # Default configuration
 DEFAULT_CONFIG = {
     "provider": "openai",
     "model": "gpt-4o",
     "api_key": "",
-    "base_url": None
+    "base_url": None,
+    "max_tokens": 4000  # Increased token limit for code generation
 }
 
 def load_config():
@@ -31,21 +32,22 @@ def load_config():
                 config_data = json.load(f)
                 provider = config_data.get("provider", DEFAULT_CONFIG["provider"])
                 # Validate provider type
-                if provider not in ["openai", "claude", "gemini"]:
+                if provider not in ["openai", "anthropic", "google"]:
                     provider = DEFAULT_CONFIG["provider"]
                 
                 return {
                     "provider": cast(ProviderType, provider),
                     "model": config_data.get("model", DEFAULT_CONFIG["model"]),
                     "api_key": config_data.get("api_key", DEFAULT_CONFIG["api_key"]),
-                    "base_url": config_data.get("base_url", DEFAULT_CONFIG["base_url"])
+                    "base_url": config_data.get("base_url", DEFAULT_CONFIG["base_url"]),
+                    "max_tokens": config_data.get("max_tokens", DEFAULT_CONFIG["max_tokens"])
                 }
         except Exception as e:
             print(f"Warning: Could not load config.json: {e}")
     
     # Fall back to environment variables
     provider = os.getenv("ACTIVA_PROVIDER", DEFAULT_CONFIG["provider"])
-    if provider not in ["openai", "claude", "gemini"]:
+    if provider not in ["openai", "anthropic", "google"]:
         provider = DEFAULT_CONFIG["provider"]
     
     model = os.getenv("ACTIVA_MODEL", DEFAULT_CONFIG["model"])
@@ -56,7 +58,8 @@ def load_config():
         "provider": cast(ProviderType, provider),
         "model": model,
         "api_key": api_key,
-        "base_url": base_url
+        "base_url": base_url,
+        "max_tokens": DEFAULT_CONFIG["max_tokens"]
     }
 
 def create_config_file():
@@ -66,7 +69,8 @@ def create_config_file():
         "model": "gpt-4o",
         "api_key": "your-api-key-here",
         "base_url": None,
-        "_comment": "Supported providers: openai, claude, gemini"
+        "max_tokens": 4000,
+        "_comment": "Supported providers: openai, anthropic, google"
     }
     
     config_path = os.path.join(os.path.dirname(__file__), "config.json")
@@ -90,21 +94,32 @@ def get_llm_client(config):
             }
             if config["base_url"]:
                 kwargs["openai_api_base"] = config["base_url"]
+            # For OpenAI, we can set max_tokens in the model parameters
+            if "max_tokens" in config:
+                kwargs["max_tokens"] = config["max_tokens"]
             return ChatOpenAI(**kwargs)
         
-        elif config["provider"] == "claude":
+        elif config["provider"] == "anthropic":
             from langchain_anthropic import ChatAnthropic
-            return ChatAnthropic(
-                model=config["model"],
-                anthropic_api_key=config["api_key"]
-            )
+            kwargs = {
+                "model": config["model"],
+                "anthropic_api_key": config["api_key"]
+            }
+            # For Anthropic, max_tokens is handled differently
+            if "max_tokens" in config:
+                kwargs["max_tokens"] = config["max_tokens"]
+            return ChatAnthropic(**kwargs)
         
-        elif config["provider"] == "gemini":
+        elif config["provider"] == "google":
             from langchain_google_genai import ChatGoogleGenerativeAI
-            return ChatGoogleGenerativeAI(
-                model=config["model"],
-                google_api_key=config["api_key"]
-            )
+            kwargs = {
+                "model": config["model"],
+                "google_api_key": config["api_key"]
+            }
+            # For Google, max_tokens is handled differently
+            if "max_tokens" in config:
+                kwargs["max_tokens"] = config["max_tokens"]
+            return ChatGoogleGenerativeAI(**kwargs)
         
         else:
             raise ValueError(f"Unsupported provider: {config['provider']}")

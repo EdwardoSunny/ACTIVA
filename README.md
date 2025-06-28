@@ -3,13 +3,11 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> **Note**: This README is located in the `docs/` folder. The project has been reorganized for better structure.
-
 ## 🚀 Quick Start
 
 ### 1. Install Dependencies
 ```bash
-https://github.com/EdwardoSunny/ACTIVA
+git clone https://github.com/EdwardoSunny/ACTIVA
 cd ACTIVA
 pip install -e .
 ```
@@ -53,7 +51,7 @@ python main.py
 
 ## 🎯 What is ACTIVA?
 
-**ACCOUNTING CONCEPTS TAUGHT INTERACTIVELY WITH VISUAL ANIMATIONS (ACTIVA)** is an LLM-based animation tool that generates custom accounting visualizations from natural language prompts. It uses a multi-agent framework to automatically create Manim animations for accounting education.
+**ACCOUNTING CONCEPTS TAUGHT INTERACTIVELY WITH VISUAL ANIMATIONS (ACTIVA)** is an LLM-based animation tool that generates custom accounting visualizations from natural language prompts. It uses a multi-agent framework to automatically create Manim animations for accounting education, helping students understand complex accounting concepts through visual representations.
 
 ## ✨ Key Features
 
@@ -62,6 +60,7 @@ python main.py
 - **Multiple LLM Support**: Works with OpenAI, Claude, and Gemini
 - **Error Recovery**: Automatic debugging and code correction
 - **Cost-Effective**: Much cheaper than manual animation production
+- **Accounting-Focused**: Specialized for accounting education and concept visualization
 
 ## 🤖 Supported LLM Providers
 
@@ -96,7 +95,7 @@ The system iterates until successful execution or reaches the maximum attempts.
 ## 📁 Project Structure
 
 ```
-activa/
+VisualsGeneration/
 ├── docs/                  # 📚 Documentation
 │   ├── README.md         # Main project documentation (this file)
 │   └── FRONTEND_README.md # Frontend usage guide
@@ -125,10 +124,10 @@ activa/
 
 ## 🎬 Example Prompts
 
-- "Create an animation showing a bouncing ball"
-- "Visualize the sine wave function"
-- "Show a rotating cube in 3D"
-- "Animate a growing circle that changes color"
+- "Create an animation showing how to calculate depreciation expense using the straight-line method"
+- "Visualize the accounting equation: Assets = Liabilities + Equity"
+- "Show a cash flow statement with animated transitions between operating, investing, and financing activities"
+- "Animate a journal entry showing the purchase of equipment on credit"
 
 ## 🔧 Configuration
 
@@ -172,12 +171,12 @@ python scripts/setup_config.py
 python scripts/run_frontend.py
 
 # 3. Open browser to http://localhost:8000
-# 4. Type: "Create a bouncing ball animation"
+# 4. Type: "Create an animation showing how to calculate accrued salaries expense"
 ```
 
 ### Command Line Usage
 ```bash
-# Run the example in main.py
+# Run the example in main.py (accounting salaries expense example)
 python main.py
 ```
 

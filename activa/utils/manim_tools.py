@@ -26,7 +26,11 @@ def search_manim_implementation(task: str) -> str:
             response = client.invoke([
                 HumanMessage(content=search_query)
             ])
-            return response.content if hasattr(response, 'content') else str(response)
+            content = response.content if hasattr(response, 'content') else str(response)
+            # Handle case where content might be a list
+            if isinstance(content, list):
+                return " ".join([str(item) for item in content])
+            return str(content)
         else:
             # OpenAI client (fallback)
             response = client.chat.completions.create(
@@ -49,23 +53,40 @@ def search_error_fix(error: str, code_context: str) -> str:
         error_lines = error.split('\n')
         key_error = next((line for line in error_lines if 'Error' in line or 'error' in line), error[:200])
         
-        search_query = f"Manim fix error: {key_error}"
+        # Create a more specific search query based on the error type
+        error_lower = error.lower()
+        if 'attributeerror' in error_lower:
+            search_query = f"Manim AttributeError fix: {key_error}"
+        elif 'nameerror' in error_lower:
+            search_query = f"Manim NameError fix: {key_error}"
+        elif 'syntaxerror' in error_lower:
+            search_query = f"Manim SyntaxError fix: {key_error}"
+        elif 'import' in error_lower:
+            search_query = f"Manim import error fix: {key_error}"
+        elif 'scene' in error_lower:
+            search_query = f"Manim Scene class error fix: {key_error}"
+        else:
+            search_query = f"Manim fix error: {key_error}"
         
         # Use the configured LLM client for web search
         if hasattr(client, 'invoke'):
             # LangChain client
             from langchain_core.messages import HumanMessage
             response = client.invoke([
-                HumanMessage(content=f"Error: {key_error}\n\nContext: Working with Manim animations. Find the fix.")
+                HumanMessage(content=f"Error: {key_error}\n\nContext: Working with Manim animations. Find the specific fix for this exact error.")
             ])
-            return response.content if hasattr(response, 'content') else str(response)
+            content = response.content if hasattr(response, 'content') else str(response)
+            # Handle case where content might be a list
+            if isinstance(content, list):
+                return " ".join([str(item) for item in content])
+            return str(content)
         else:
             # OpenAI client (fallback)
             response = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "system", "content": "You are a Manim debugging expert. Provide specific code fixes for Manim errors."},
-                    {"role": "user", "content": f"Error: {key_error}\n\nContext: Working with Manim animations. Find the fix."}
+                    {"role": "system", "content": "You are a Manim debugging expert. Provide specific code fixes for Manim errors. Focus on the exact error message and provide actionable solutions."},
+                    {"role": "user", "content": f"Error: {key_error}\n\nContext: Working with Manim animations. Find the specific fix for this exact error."}
                 ],
                 tools=[{"type": "web_search"}],
                 tool_choice="required"

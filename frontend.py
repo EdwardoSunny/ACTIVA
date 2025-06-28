@@ -36,7 +36,7 @@ async def start():
         content="🎬 Welcome to the ACTIVA Code Generation Agent!\n\n"
                 "I can help you create Manim animations. Just describe what you want to visualize, "
                 "and I'll generate the code for you.\n\n"
-                "Example: 'Create an animation showing a bouncing ball'"
+                "Example: 'First solve the problem to determine the salaries expense Lind should report for the month ended June 30, then create an animation to explain your solution based on the following: Lind pays $10,000 every other Friday for 10 workdays (excluding weekends), the last payment was on June 18, and the salaries expense account showed $14,000 before accruals as of Wednesday, June 30.'"
     ).send()
 
 def run_agent_sync(initial_state):

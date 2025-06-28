@@ -13,12 +13,14 @@ def should_continue(state: AgentState) -> Literal["search", "done"]:
     - Otherwise, it continues to search for an error fix.
     """
     if not state["error"]:
+        print("✅ No errors found - process complete!")
         return "done"
     
     if state["attempts"] >= 20:
         print("⚠️ Max attempts reached. Ending process.")
         return "done"
     
+    print(f"🔄 Attempt {state['attempts']} failed, retrying with error feedback...")
     return "search"
 
 # --- Build and Compile Graph ---
