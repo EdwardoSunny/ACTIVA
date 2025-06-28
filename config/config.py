@@ -24,7 +24,7 @@ def load_config():
     Falls back to defaults if no config is found.
     """
     # Try to load from config.json
-    config_file = "config.json"
+    config_file = os.path.join(os.path.dirname(__file__), "config.json")
     if os.path.exists(config_file):
         try:
             with open(config_file, 'r') as f:
@@ -69,7 +69,8 @@ def create_config_file():
         "_comment": "Supported providers: openai, claude, gemini"
     }
     
-    with open("config.json", 'w') as f:
+    config_path = os.path.join(os.path.dirname(__file__), "config.json")
+    with open(config_path, 'w') as f:
         json.dump(sample_config, f, indent=2)
     
     print("✅ Created config.json with sample configuration")

@@ -115,7 +115,8 @@ def setup_config():
     }
     
     # Save config
-    with open("config.json", 'w') as f:
+    config_path = os.path.join("..", "config", "config.json")
+    with open(config_path, 'w') as f:
         json.dump(config_data, f, indent=2)
     
     print("\n✅ Configuration saved to config.json!")

@@ -2,7 +2,7 @@ import re
 from langchain_core.messages import SystemMessage, HumanMessage
 from activa.agent.state import AgentState
 from activa.utils.manim_tools import search_manim_implementation, search_error_fix, execute_manim_code
-from config import config, get_llm_client
+from config.config import config, get_llm_client
 
 # Initialize LLM client based on config
 try:

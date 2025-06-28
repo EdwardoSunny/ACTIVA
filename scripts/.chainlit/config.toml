@@ -1,6 +1,7 @@
 [project]
-# Project configuration
-enable_telemetry = false
+# Whether to enable telemetry (default: true). No personal data is collected.
+enable_telemetry = true
+
 
 # List of environment variables to be provided by each user to use the app.
 user_env = []
@@ -18,9 +19,6 @@ cache = false
 allow_origins = ["*"]
 
 [features]
-# Enable features
-multi_modal = true
-
 # Process and display HTML in messages. This can be a security risk (see https://stackoverflow.com/questions/19603097/why-is-it-dangerous-to-render-user-generated-html-or-javascript)
 unsafe_allow_html = false
 
@@ -67,16 +65,17 @@ edit_message = true
     allowed_executables = [ "npx", "uvx" ]
 
 [UI]
-# UI configuration
-name = "ACTIVA"
-description = "Accounting Concepts Taught Interactively with Visual Animations"
-show_readme_as_default = true
+# Name of the assistant.
+name = "Assistant"
 
 # default_theme = "dark"
 
 # layout = "wide"
 
 # default_sidebar_state = "open"
+
+# Description of the assistant. This is used for HTML tags.
+# description = ""
 
 # Chain of Thought (CoT) display mode. Can be "hidden", "tool_call" or "full".
 cot = "full"
@@ -119,17 +118,3 @@ cot = "full"
 
 [meta]
 generated_by = "2.5.5"
-
-[server]
-# Server configuration
-host = "0.0.0.0"
-port = 8000
-
-# Extended timeout settings for long-running operations
-timeout = 300  # 5 minutes for general operations
-max_http_timeout = 300  # 5 minutes for HTTP requests
-max_websocket_timeout = 300  # 5 minutes for WebSocket connections
-
-# Additional timeout settings
-request_timeout = 300
-response_timeout = 300

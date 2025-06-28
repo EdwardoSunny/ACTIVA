@@ -21,6 +21,13 @@ def main():
         subprocess.check_call([sys.executable, "-m", "pip", "install", "chainlit>=1.0.0"])
         print("✅ Chainlit installed successfully")
     
+    # Check if config file exists
+    config_path = os.path.join(os.path.dirname(__file__), "..", ".chainlit", "config.toml")
+    if os.path.exists(config_path):
+        print("✅ Found Chainlit configuration file")
+    else:
+        print("⚠️ No Chainlit configuration file found, using defaults")
+    
     # Run the frontend
     print("\n🚀 Starting the frontend...")
     print("The app will open in your browser at http://localhost:8000")
@@ -28,12 +35,19 @@ def main():
     print("-" * 50)
     
     try:
+        # Change to the project root directory
+        project_root = os.path.dirname(os.path.dirname(__file__))
+        os.chdir(project_root)
+        
         subprocess.run([
             sys.executable, "-m", "chainlit", "run", "frontend.py", 
             "--port", "8000", "--host", "0.0.0.0"
         ])
     except KeyboardInterrupt:
         print("\n👋 Frontend stopped. Goodbye!")
+    except Exception as e:
+        print(f"\n❌ Error starting frontend: {e}")
+        print("Try running: chainlit run frontend.py --port 8000")
 
 if __name__ == "__main__":
     main() 

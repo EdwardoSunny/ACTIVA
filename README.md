@@ -3,6 +3,8 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> **Note**: This README is located in the `docs/` folder. The project has been reorganized for better structure.
+
 ## 🚀 Quick Start
 
 ### 1. Install Dependencies
@@ -14,14 +16,14 @@ pip install -e .
 
 ### 2. Configure LLM Provider
 ```bash
-python setup_config.py
+python scripts/setup_config.py
 ```
 Choose from OpenAI, Claude, or Gemini and enter your API key.
 
 ### 3. Run ACTIVA
 **Frontend (Recommended):**
 ```bash
-python run_frontend.py
+python scripts/run_frontend.py
 ```
 Then open `http://localhost:8000` in your browser.
 
@@ -30,7 +32,7 @@ Then open `http://localhost:8000` in your browser.
 python main.py
 ```
 
-📖 **See [FRONTEND_README.md](FRONTEND_README.md) for detailed frontend usage.**
+📖 **See [docs/FRONTEND_README.md](FRONTEND_README.md) for detailed frontend usage.**
 
 ## 🎯 What is ACTIVA?
 
@@ -43,6 +45,8 @@ python main.py
 - **Multiple LLM Support**: Works with OpenAI, Claude, and Gemini
 - **Real-time Generation**: Automated creation of accounting process animations
 - **Error Recovery**: Automatic debugging and code correction
+- **Extended Timeouts**: 5-minute timeout for long-running operations
+- **Progress Updates**: Real-time status during generation and execution
 - **Cost-Effective**: Much cheaper than manual animation production
 
 ## 🤖 Supported LLM Providers
@@ -79,19 +83,30 @@ The system iterates until successful execution or reaches the maximum attempts.
 
 ```
 activa/
-├── agent/                 # Multi-agent framework
-│   ├── graph.py          # Agent workflow definition
-│   ├── nodes.py          # Individual agent implementations
-│   └── state.py          # State management
-├── utils/                 # Manim execution utilities
-│   └── manim_tools.py    # Code execution and error handling
-├── frontend.py           # Web interface (Chainlit)
-├── main.py               # Command line entry point
-├── run_frontend.py       # Frontend launcher
-├── setup_config.py       # LLM provider setup
-├── config.py             # Configuration management
-├── config.json           # LLM provider settings (auto-created)
-└── generated_code/       # Generated animation files
+├── docs/                  # 📚 Documentation
+│   ├── README.md         # Main project documentation (this file)
+│   └── FRONTEND_README.md # Frontend usage guide
+├── scripts/               # 🔧 Utility Scripts
+│   ├── setup_config.py   # LLM provider setup
+│   └── run_frontend.py   # Frontend launcher
+├── config/                # ⚙️ Configuration
+│   ├── config.py         # Configuration management
+│   └── config.json       # LLM provider settings (auto-created)
+├── .chainlit/             # 🌐 Chainlit Configuration
+│   └── config.toml       # Frontend timeout and server settings
+├── activa/                # 🧠 Core Agent System
+│   ├── agent/            # Multi-agent framework
+│   │   ├── graph.py      # Agent workflow definition
+│   │   ├── nodes.py      # Individual agent implementations
+│   │   └── state.py      # State management
+│   └── utils/            # Manim execution utilities
+│       └── manim_tools.py # Code execution and error handling
+├── frontend.py           # 🌐 Web interface (Chainlit)
+├── main.py               # 🖥️ Command line entry point
+├── chainlit.md           # 📋 Chainlit sidebar content
+├── pyproject.toml        # 📦 Project dependencies
+├── LICENSE               # 📄 License information
+└── generated_code/       # 📁 Generated animation files
 ```
 
 ## 🎬 Example Prompts
@@ -105,11 +120,11 @@ activa/
 
 ### Interactive Setup
 ```bash
-python setup_config.py
+python scripts/setup_config.py
 ```
 
 ### Manual Configuration
-Edit `config.json`:
+Edit `config/config.json`:
 ```json
 {
   "provider": "openai",
@@ -125,6 +140,44 @@ export ACTIVA_PROVIDER="claude"
 export ACTIVA_MODEL="claude-3-5-sonnet-20241022"
 export ACTIVA_API_KEY="your-api-key"
 ```
+
+### Frontend Configuration
+The frontend includes extended timeout settings (5 minutes) for long-running operations:
+- **Agent Generation**: Up to 5 minutes for code generation
+- **Animation Execution**: Up to 5 minutes for Manim rendering
+- **Progress Updates**: Real-time status during operations
+
+## 🚀 Usage Examples
+
+### Quick Test
+```bash
+# 1. Setup (one-time)
+python scripts/setup_config.py
+
+# 2. Run frontend
+python scripts/run_frontend.py
+
+# 3. Open browser to http://localhost:8000
+# 4. Type: "Create a bouncing ball animation"
+```
+
+### Command Line Usage
+```bash
+# Run the example in main.py
+python main.py
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+- **Timeout Errors**: The frontend is configured with 5-minute timeouts for long operations
+- **Connection Issues**: Check your internet connection and API key validity
+- **Generation Failures**: Try simpler prompts first, then increase complexity
+
+### Frontend Issues
+- **Server Won't Start**: Run `python scripts/run_frontend.py` from the project root
+- **Timeout During Generation**: The system automatically handles long operations
+- **Animation Execution Fails**: Check the generated code in `generated_code/` directory
 
 ## 🤝 Contributing
 

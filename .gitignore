@@ -15,4 +15,4 @@ output/
 generated_code/
 
 # Configuration files (contain API keys)
-config.json
+config/config.json

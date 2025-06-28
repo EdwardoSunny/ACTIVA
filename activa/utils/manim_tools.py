@@ -2,7 +2,7 @@ import os
 import re
 import subprocess
 import tempfile
-from config import config, get_llm_client
+from config.config import config, get_llm_client
 
 # Initialize the LLM client for tool use
 try:

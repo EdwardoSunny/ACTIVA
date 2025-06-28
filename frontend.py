@@ -4,6 +4,8 @@ from activa.utils.manim_tools import execute_manim_code
 import os
 import glob
 import time
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 # Initialize the agent once
 manim_agent = get_manim_agent()
@@ -12,6 +14,9 @@ manim_agent = get_manim_agent()
 last_prompt = None
 last_generated_code = None
 last_filename = None
+
+# Thread pool for running blocking operations
+executor = ThreadPoolExecutor(max_workers=1)
 
 # Ensure generated_code directory exists
 def ensure_generated_code_dir():
@@ -34,6 +39,10 @@ async def start():
                 "Example: 'Create an animation showing a bouncing ball'"
     ).send()
 
+def run_agent_sync(initial_state):
+    """Run the agent synchronously in a thread pool"""
+    return manim_agent.invoke(initial_state)
+
 @cl.on_message
 async def main(message: cl.Message):
     """Handle incoming messages and generate Manim code"""
@@ -45,9 +54,8 @@ async def main(message: cl.Message):
     # Update last prompt
     last_prompt = task
     
-    # Show thinking indicator
-    await cl.Message(content="🤔 Thinking...").send()
-    await cl.Message(content="🔄 Generating Manim code...").send()
+    # Show initial progress
+    progress_msg = await cl.Message(content="🤔 Analyzing your request...").send()
     
     # Define the initial state for the agent
     initial_state = {
@@ -61,15 +69,19 @@ async def main(message: cl.Message):
     }
     
     try:
-        # Invoke the agent to get the final state
-        final_state = manim_agent.invoke(initial_state)
+        # Send progress update
+        await cl.Message(content="🔄 Generating Manim code... This may take a few minutes.").send()
+        
+        # Run the agent in a thread pool to avoid blocking
+        loop = asyncio.get_event_loop()
+        final_state = await loop.run_in_executor(executor, run_agent_sync, initial_state)
         
         # Get the results
         final_code = final_state.get("code", "")
         error_message = final_state.get("error", "")
         attempts = final_state.get("attempts", 0)
         
-        # Show completion status
+        # Send completion status
         await cl.Message(content=f"✅ Generation completed after {attempts} attempt(s)!").send()
         
         if not error_message and final_code:
@@ -121,9 +133,7 @@ async def main(message: cl.Message):
             await show_retry_buttons()
             
     except Exception as e:
-        await cl.Message(
-            content=f"❌ An unexpected error occurred: {str(e)}"
-        ).send()
+        await cl.Message(content=f"❌ An unexpected error occurred: {str(e)}").send()
 
 async def show_action_buttons():
     """Show the persistent action buttons"""
@@ -165,6 +175,10 @@ def get_manim_output_info():
     
     return "media/ (default Manim output directory)"
 
+def execute_manim_sync(code):
+    """Execute Manim code synchronously in a thread pool"""
+    return execute_manim_code(code)
+
 @cl.action_callback("run_animation")
 async def run_animation(action):
     """Run the generated Manim animation"""
@@ -178,8 +192,9 @@ async def run_animation(action):
         with open(filename, 'r') as f:
             code = f.read()
         
-        # Execute the Manim code
-        result = execute_manim_code(code)
+        # Execute the Manim code in a thread pool to avoid blocking
+        loop = asyncio.get_event_loop()
+        result = await loop.run_in_executor(executor, execute_manim_sync, code)
         
         if result.get("success", False):
             # Find the generated media files

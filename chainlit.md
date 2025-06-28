@@ -1,6 +1,6 @@
-# 🎬 ACTIVA Code Generation Agent
+# Welcome to ACTIVA! 🎬
 
-Welcome to ACTIVA! This tool helps you create beautiful mathematical animations using Manim.
+This tool helps you create beautiful mathematical animations using Manim.
 
 ## How to use:
 
