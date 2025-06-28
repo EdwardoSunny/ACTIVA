@@ -1,98 +1,81 @@
 # 🎬 Frontend Usage Guide
 
-This project now includes a simple web-based frontend built with Chainlit for easy testing and interaction with the ACTIVA Code Generation Agent.
+Web-based interface for the ACTIVA Code Generation Agent built with Chainlit.
 
-## Quick Start
+## 🚀 Quick Start
 
-### Option 1: Using the run script (Recommended)
-```bash
-python run_frontend.py
-```
+### Prerequisites
+1. **Install dependencies**: `pip install -e .`
+2. **Configure LLM provider**: `python setup_config.py`
+3. **Run frontend**: `python run_frontend.py`
+4. **Open browser**: `http://localhost:8000`
 
-### Option 2: Direct Chainlit command
-```bash
-# Install chainlit if not already installed
-pip install chainlit>=1.0.0
+## ✨ Features
 
-# Run the frontend
-chainlit run frontend.py --port 8000
-```
+- **Chat Interface**: Type animation requests in plain English
+- **Progress Updates**: Real-time status during generation and execution
+- **Code Display**: Formatted Python code with syntax highlighting
+- **File Organization**: Generated code saved in `generated_code/` directory
+- **Interactive Buttons**: Run animations, retry, or create new prompts
+- **Error Handling**: Automatic retry with detailed error messages
+- **Multi-LLM Support**: Works with OpenAI, Claude, and Gemini
 
-## Features
+## 📋 Usage
 
-The frontend provides:
+1. **Send a prompt**: "Create a bouncing ball animation"
+2. **Wait for generation**: See progress updates
+3. **Review code**: Check the generated Manim code
+4. **Run animation**: Click "Run Animation" to execute
+5. **Repeat**: Use buttons to retry or create new animations
 
-- **Simple Chat Interface**: Just type your animation request
-- **Code Generation**: Automatic Manim code generation with error handling
-- **Progress Updates**: Clear status messages during generation and execution
-- **Code Display**: Formatted code output with syntax highlighting
-- **File Saving**: Generated code is automatically saved with timestamps in organized directory
-- **Animation Execution**: Optional button to run the generated animation
-- **File Location Display**: Shows exactly where code and animation files are saved
-- **Interactive Buttons**: Easy navigation between actions
-- **Retry Logic**: Built-in retry mechanisms for failed generations
-- **Error Handling**: Detailed error messages and debugging information
+## 📁 File Output
 
-## Usage Flow
+- **Code files**: `generated_code/manim_animation_TIMESTAMP.py`
+- **Animation files**: `media/` directory (Manim default)
+- **Paths displayed**: Full file locations shown in chat
 
-1. **Start the frontend** using one of the methods above
-2. **Open your browser** to `http://localhost:8000`
-3. **Describe your animation** in the chat (e.g., "Create a bouncing ball animation")
-4. **Wait for generation** - you'll see progress updates
-5. **Review the code** displayed in the chat
-6. **Check file locations** - the app shows where everything is saved
-7. **Choose next action**:
-   - 🚀 Run Animation: Execute the code to see the result
-   - 🔄 New Prompt: Try a different animation
-   - 🔄 Rerun Same: Retry the same prompt
-
-## File Output
-
-- **Code files**: Saved as `generated_code/manim_animation_TIMESTAMP.py` (organized directory)
-- **Animation files**: Generated in the `media/` directory (default Manim output)
-- **File locations**: Clearly displayed in the chat interface
-- **Directory structure**: Keeps your project root clean and organized
-
-## Example Prompts
+## 🎯 Example Prompts
 
 - "Create an animation showing a bouncing ball"
-- "Visualize the sine wave function with a moving point"
-- "Show a rotating cube in 3D space"
+- "Visualize the sine wave function"
+- "Show a rotating cube in 3D"
 - "Animate a growing circle that changes color"
-- "Create a bar chart animation showing data over time"
 
-## Progress Updates
+## 🔧 Configuration
 
-The frontend now provides:
-- ✅ Status messages during code generation
-- ✅ Progress updates during animation execution
-- ✅ Clear indication of where files are saved
-- ✅ Detailed success/error messages
-- ✅ File location information for both code and animations
+### LLM Provider Setup
+Before using the frontend, configure your preferred LLM provider:
 
-## Troubleshooting
+```bash
+python setup_config.py
+```
 
-- **Port already in use**: Change the port in `run_frontend.py` or use a different port
-- **Chainlit not found**: The run script will automatically install it
-- **Agent errors**: Check the console output for detailed error messages
-- **File locations**: The app shows exactly where files are saved
-- **Generated code directory**: Automatically created if it doesn't exist
+**Supported Providers:**
+- **OpenAI**: GPT-4o, GPT-4-turbo, GPT-3.5-turbo
+- **Claude**: Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Sonnet
+- **Gemini**: Gemini 1.5 Pro, Gemini 1.5 Flash, Gemini Pro
 
-## Requirements
+### Manual Configuration
+Edit `config.json`:
+```json
+{
+  "provider": "openai",
+  "model": "gpt-4o",
+  "api_key": "your-api-key-here"
+}
+```
+
+## 🔧 Troubleshooting
+
+- **Port in use**: Change port in `run_frontend.py`
+- **Chainlit missing**: Automatically installed by run script
+- **File locations**: Check chat for exact paths
+- **LLM errors**: Verify API key and provider settings in `config.json`
+- **Missing dependencies**: Run `pip install -e .`
+
+## 📖 Requirements
 
 - Python 3.10+
-- All dependencies from `pyproject.toml`
-- Chainlit (automatically installed by the run script)
-
-## What's New
-
-- **Progress Updates**: No more blank screens during execution
-- **File Location Display**: Clear indication of where code and animations are saved
-- **Better Error Handling**: More detailed error messages and debugging info
-- **Timestamped Files**: Generated code files include timestamps to avoid conflicts
-- **Media File Detection**: Automatically finds and displays generated animation files
-- **Organized File Structure**: Generated code saved in `generated_code/` directory
-
----
-
-*The frontend makes it easy to test and experiment with the ACTIVA Code Generation Agent without writing any code!* 
+- Dependencies from `pyproject.toml`
+- Chainlit (auto-installed)
+- Valid API key for chosen LLM provider 

@@ -1,10 +1,19 @@
 import re
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from activa.agent.state import AgentState
 from activa.utils.manim_tools import search_manim_implementation, search_error_fix, execute_manim_code
+from config import config, get_llm_client
 
-llm = ChatOpenAI(model="gpt-4o")
+# Initialize LLM client based on config
+try:
+    llm = get_llm_client(config)
+    print(f"✅ Using {config['provider']} with model {config['model']}")
+except Exception as e:
+    print(f"❌ Error initializing LLM client: {e}")
+    print("Falling back to OpenAI...")
+    # Fallback to OpenAI
+    from langchain_openai import ChatOpenAI
+    llm = ChatOpenAI(model="gpt-4o")
 
 def plan_and_search(state: AgentState) -> AgentState:
     """
@@ -72,7 +81,15 @@ Rewrite the ENTIRE script to fix the error. Pay close attention to class names, 
     ])
     
     # Clean the response to get raw code
-    code = response.content.strip()
+    # Handle different response types from different providers
+    if hasattr(response, 'content'):
+        code = response.content.strip()
+    elif isinstance(response, str):
+        code = response.strip()
+    else:
+        # Fallback: try to get content from response
+        code = str(response).strip()
+    
     code = re.sub(r'^```python\n|```$', '', code, flags=re.MULTILINE)
     
     state["code"] = code

@@ -13,3 +13,6 @@ output/
 
 # Generated code from ACTIVA
 generated_code/
+
+# Configuration files (contain API keys)
+config.json

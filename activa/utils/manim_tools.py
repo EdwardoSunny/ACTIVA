@@ -2,29 +2,45 @@ import os
 import re
 import subprocess
 import tempfile
-from openai import OpenAI
+from config import config, get_llm_client
 
-# Initialize the OpenAI client for tool use
-client = OpenAI()
+# Initialize the LLM client for tool use
+try:
+    client = get_llm_client(config)
+    print(f"✅ Using {config['provider']} for web search tools")
+except Exception as e:
+    print(f"❌ Error initializing LLM client for tools: {e}")
+    print("Falling back to OpenAI...")
+    from openai import OpenAI
+    client = OpenAI()
 
 def search_manim_implementation(task: str) -> str:
     """Search for how to implement specific Manim features."""
     try:
         search_query = f"Manim tutorial how to {task} code example"
         
-        response = openai_client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "Find specific Manim code examples and implementation details. Focus on working code patterns."},
-                {"role": "user", "content": search_query}
-            ],
-            tools=[{"type": "web_search"}],
-            tool_choice="required"
-        )
-        
-        return response.choices[0].message.content or "No examples found."
+        # Use the configured LLM client for web search
+        if hasattr(client, 'invoke'):
+            # LangChain client
+            from langchain_core.messages import HumanMessage
+            response = client.invoke([
+                HumanMessage(content=search_query)
+            ])
+            return response.content if hasattr(response, 'content') else str(response)
+        else:
+            # OpenAI client (fallback)
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "Find specific Manim code examples and implementation details. Focus on working code patterns."},
+                    {"role": "user", "content": search_query}
+                ],
+                tools=[{"type": "web_search"}],
+                tool_choice="required"
+            )
+            return response.choices[0].message.content or "No examples found."
     except Exception as e:
-        return ""
+        return f"Search error: {str(e)}"
 
 def search_error_fix(error: str, code_context: str) -> str:
     """Search for specific fixes for Manim errors."""
@@ -35,19 +51,28 @@ def search_error_fix(error: str, code_context: str) -> str:
         
         search_query = f"Manim fix error: {key_error}"
         
-        response = openai_client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "You are a Manim debugging expert. Provide specific code fixes for Manim errors."},
-                {"role": "user", "content": f"Error: {key_error}\n\nContext: Working with Manim animations. Find the fix."}
-            ],
-            tools=[{"type": "web_search"}],
-            tool_choice="required"
-        )
-        
-        return response.choices[0].message.content or "Check imports and class structure."
+        # Use the configured LLM client for web search
+        if hasattr(client, 'invoke'):
+            # LangChain client
+            from langchain_core.messages import HumanMessage
+            response = client.invoke([
+                HumanMessage(content=f"Error: {key_error}\n\nContext: Working with Manim animations. Find the fix.")
+            ])
+            return response.content if hasattr(response, 'content') else str(response)
+        else:
+            # OpenAI client (fallback)
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "system", "content": "You are a Manim debugging expert. Provide specific code fixes for Manim errors."},
+                    {"role": "user", "content": f"Error: {key_error}\n\nContext: Working with Manim animations. Find the fix."}
+                ],
+                tools=[{"type": "web_search"}],
+                tool_choice="required"
+            )
+            return response.choices[0].message.content or "Check imports and class structure."
     except Exception as e:
-        return "Ensure proper Manim imports and Scene inheritance."
+        return f"Error search failed: {str(e)}"
 
 def execute_manim_code(code: str) -> dict:
     """Execute Manim code with better error handling."""

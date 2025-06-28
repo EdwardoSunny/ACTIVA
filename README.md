@@ -3,131 +3,144 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Overview
+## 🚀 Quick Start
 
-**ACCOUNTING CONCEPTS TAUGHT INTERACTIVELY WITH VISUAL ANIMATIONS (ACTIVA)** is a novel Large Language Model (LLM)-based animation tool designed to enhance accounting education through automated visualizations. Grounded in cognitive theory of multimedia learning, ACTIVA bridges the gap between abstract accounting constructs and practical applications by generating custom animations from natural language prompts.
-
-## 🎯 Key Features
-
-- **Multi-Agent Framework**: Sophisticated agent-based system for intelligent animation generation
-- **Natural Language Processing**: Convert accounting problems into visual animations using simple text prompts
-- **Real-time Generation**: Dynamic, automated creation of accounting process demonstrations
-- **LLM Compatibility**: Works seamlessly with both ChatGPT and Claude
-- **Error Recovery**: Intelligent error detection and automatic code correction
-- **Cost-Effective**: Significantly more affordable than manually produced animations
-
-## 🏗️ Architecture
-
-ACIVA employs a sophisticated multi-agent framework built with LangGraph that orchestrates four specialized agents working in sequence:
-
-**Planning & Search Agent**: The workflow begins with this agent analyzing the natural language task and searching for relevant Manim implementation examples to guide the code generation process.
-
-**Code Writing Agent**: This agent generates the initial Manim Python code based on the task description and implementation guide. It creates complete, executable animation scripts following Manim best practices.
-
-**Execution Agent**: The generated code is then executed by this agent, which runs the Manim animation and captures the output. It determines whether the animation was successful or encountered errors.
-
-**Error Search Agent**: If execution fails, this agent searches for specific solutions to the encountered errors using web search capabilities and provides targeted fixes.
-
-The system operates in an iterative loop where the Error Search Agent feeds solutions back to the Code Writing Agent for code revision, continuing until successful execution or reaching the maximum attempt limit. This self-correcting mechanism ensures robust animation generation even for complex accounting concepts.
-
-## 📋 Prerequisites
-
-- Python 3.10 or higher
-- OpenAI API key (for GPT-4o integration)
-- Manim library for animation generation
-
-## 🚀 Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/activa.git
-   cd activa
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install -e .
-   ```
-
-3. **Set up your API key**:
-   ```bash
-   export OPENAI_API_KEY="your-api-key-here"
-   ```
-
-### Custom Usage
-
-Modify the `task` variable in `main.py` to create animations for your specific accounting concepts:
-
-```python
-task = """
-Create an animation showing how to calculate accrued salaries expense 
-for a company that pays $10,000 every other Friday, with the last 
-payment on June 18th and month-end on June 30th.
-"""
+### 1. Install Dependencies
+```bash
+git clone https://github.com/yourusername/activa.git
+cd activa
+pip install -e .
 ```
 
-## 🔧 Configuration
-
-### Customization Options
-
-Modify the agent configuration in `activa/agent/graph.py`:
-
-```python
-config = {
-    "recursion_limit": 50,  # Maximum attempts for code generation
-    "timeout": 45,          # Execution timeout in seconds
-}
+### 2. Configure LLM Provider
+```bash
+python setup_config.py
 ```
+Choose from OpenAI, Claude, or Gemini and enter your API key.
+
+### 3. Run ACTIVA
+**Frontend (Recommended):**
+```bash
+python run_frontend.py
+```
+Then open `http://localhost:8000` in your browser.
+
+**Command Line:**
+```bash
+python main.py
+```
+
+📖 **See [FRONTEND_README.md](FRONTEND_README.md) for detailed frontend usage.**
+
+## 🎯 What is ACTIVA?
+
+**ACCOUNTING CONCEPTS TAUGHT INTERACTIVELY WITH VISUAL ANIMATIONS (ACTIVA)** is an LLM-based animation tool that generates custom accounting visualizations from natural language prompts. It uses a multi-agent framework to automatically create Manim animations for accounting education.
+
+## ✨ Key Features
+
+- **Natural Language Input**: Describe accounting concepts in plain English
+- **Multi-Agent System**: Intelligent planning, coding, execution, and error recovery
+- **Multiple LLM Support**: Works with OpenAI, Claude, and Gemini
+- **Real-time Generation**: Automated creation of accounting process animations
+- **Error Recovery**: Automatic debugging and code correction
+- **Cost-Effective**: Much cheaper than manual animation production
+
+## 🤖 Supported LLM Providers
+
+ACTIVA supports multiple LLM providers through a flexible configuration system:
+
+### OpenAI
+- **Models**: GPT-4o, GPT-4-turbo, GPT-3.5-turbo
+- **Setup**: Requires OpenAI API key
+- **Best for**: General purpose, code generation
+
+### Claude (Anthropic)
+- **Models**: Claude 3.5 Sonnet, Claude 3 Opus, Claude 3 Sonnet
+- **Setup**: Requires Anthropic API key
+- **Best for**: Complex reasoning, detailed explanations
+
+### Gemini (Google)
+- **Models**: Gemini 1.5 Pro, Gemini 1.5 Flash, Gemini Pro
+- **Setup**: Requires Google API key
+- **Best for**: Cost-effective, fast responses
+
+## 🏗️ How It Works
+
+ACTIVA uses four specialized agents working together:
+
+1. **Planning Agent**: Analyzes your prompt and searches for implementation examples
+2. **Code Writing Agent**: Generates Manim Python code based on the task
+3. **Execution Agent**: Runs the animation and checks for success
+4. **Error Search Agent**: Finds fixes if execution fails
+
+The system iterates until successful execution or reaches the maximum attempts.
 
 ## 📁 Project Structure
 
 ```
 activa/
-├── agent/
-│   ├── graph.py          # Main agent workflow definition
-│   ├── nodes.py          # Individual agent node implementations
-│   └── state.py          # State management for agent workflow
-├── utils/
-│   └── manim_tools.py    # Manim execution and error handling utilities
-├── main.py               # Entry point for the application
-├── pyproject.toml        # Project dependencies and metadata
-└── README.md            # This file
+├── agent/                 # Multi-agent framework
+│   ├── graph.py          # Agent workflow definition
+│   ├── nodes.py          # Individual agent implementations
+│   └── state.py          # State management
+├── utils/                 # Manim execution utilities
+│   └── manim_tools.py    # Code execution and error handling
+├── frontend.py           # Web interface (Chainlit)
+├── main.py               # Command line entry point
+├── run_frontend.py       # Frontend launcher
+├── setup_config.py       # LLM provider setup
+├── config.py             # Configuration management
+├── config.json           # LLM provider settings (auto-created)
+└── generated_code/       # Generated animation files
 ```
 
-## 🎬 Animation Examples
+## 🎬 Example Prompts
 
-ACIVA can generate various types of accounting animations:
+- "Create an animation showing a bouncing ball"
+- "Visualize the sine wave function"
+- "Show a rotating cube in 3D"
+- "Animate a growing circle that changes color"
 
-- **Journal Entry Visualizations**: Animated T-accounts and ledger entries
-- **Financial Statement Animations**: Dynamic income statement and balance sheet presentations
-- **Process Flow Diagrams**: Step-by-step accounting procedure demonstrations
-- **Calculation Animations**: Visual representations of complex accounting formulas
-- **Timeline Visualizations**: Temporal aspects of accrual and deferral accounting
+## 🔧 Configuration
 
-## 🧪 Testing
-
-Run the included example to test the system:
-
+### Interactive Setup
 ```bash
-python main.py
+python setup_config.py
 ```
 
-The system will generate an animation for the sample accrual accounting problem and save the successful code to `final_manim_animation.py`.
+### Manual Configuration
+Edit `config.json`:
+```json
+{
+  "provider": "openai",
+  "model": "gpt-4o",
+  "api_key": "your-api-key-here",
+  "base_url": null
+}
+```
+
+### Environment Variables (Alternative)
+```bash
+export ACTIVA_PROVIDER="claude"
+export ACTIVA_MODEL="claude-3-5-sonnet-20241022"
+export ACTIVA_API_KEY="your-api-key"
+```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our contributing guidelines:
-
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Commit your changes
+4. Open a Pull Request
 
+## 📖 Documentation
+
+- **[Frontend Guide](FRONTEND_README.md)** - Web interface usage
+- **Code Comments** - Detailed implementation documentation
+- **Example in main.py** - Sample usage and customization
 
 ## 🆘 Support
 
-For support and questions:
 - Open an issue on GitHub
-- Check the documentation in the code comments
-- Review the example implementations
+- Check the documentation
+- Review example implementations
