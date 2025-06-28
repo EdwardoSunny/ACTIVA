@@ -9,7 +9,7 @@
 
 ### 1. Install Dependencies
 ```bash
-git clone https://github.com/yourusername/activa.git
+https://github.com/EdwardoSunny/ACTIVA
 cd ACTIVA
 pip install -e .
 ```
