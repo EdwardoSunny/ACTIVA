@@ -14,13 +14,30 @@ cd activa
 pip install -e .
 ```
 
-### 2. Configure LLM Provider
+### 2. Set Up API Access
+ACTIVA requires an API key from one of the supported LLM providers. You'll need to:
+
+**Get API Keys:**
+- **OpenAI**: Visit [platform.openai.com](https://platform.openai.com) and create an account
+- **Claude (Anthropic)**: Visit [console.anthropic.com](https://console.anthropic.com) and sign up
+- **Gemini (Google)**: Visit [makersuite.google.com](https://makersuite.google.com) and get an API key
+
+**Configure ACTIVA:**
 ```bash
 python scripts/setup_config.py
 ```
-Choose from OpenAI, Claude, or Gemini and enter your API key.
+Choose your preferred provider and enter your API key when prompted.
 
-### 3. Run ACTIVA
+### 3. Supported Models
+ACTIVA works with the following models:
+
+- **OpenAI**: GPT-4o (recommended), GPT-4-turbo, GPT-3.5-turbo
+- **Claude**: Claude 3.5 Sonnet (recommended), Claude 3 Opus, Claude 3 Sonnet  
+- **Gemini**: Gemini 1.5 Pro (recommended), Gemini 1.5 Flash, Gemini Pro
+
+The interactive setup will guide you through model selection. For best results, we recommend using the latest models (GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5 Pro).
+
+### 4. Run ACTIVA
 **Frontend (Recommended):**
 ```bash
 python scripts/run_frontend.py
