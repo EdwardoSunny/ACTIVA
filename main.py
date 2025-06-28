@@ -2,6 +2,13 @@ import os
 from activa.agent.graph import get_manim_agent
 from activa.utils.manim_tools import execute_manim_code
 
+def ensure_generated_code_dir():
+    """Ensure the generated_code directory exists"""
+    generated_dir = "generated_code"
+    if not os.path.exists(generated_dir):
+        os.makedirs(generated_dir)
+    return generated_dir
+
 def main():
     """
     Main function to run the Manim code generation agent.
@@ -31,13 +38,10 @@ Question: Lind Co.'s salaries expense of $10,000 is paid every other Friday for 
         "error_solutions": [],
         "implementation_guide": ""
     }
-    
-    # Set a high recursion limit for complex tasks
-    config = {"recursion_limit": 50}
 
     try:
         # Invoke the agent to get the final state
-        final_state = app.invoke(initial_state, config=config)
+        final_state = app.invoke(initial_state)
 
         # --- Process the final result ---
         final_code = final_state.get("code", "")
@@ -50,8 +54,9 @@ Question: Lind Co.'s salaries expense of $10,000 is paid every other Friday for 
             print(final_code)
             print("=" * 50)
 
-            # Save the successful code to a file
-            filename = "final_manim_animation.py"
+            # Save the successful code to a file in generated_code directory
+            generated_dir = ensure_generated_code_dir()
+            filename = os.path.join(generated_dir, "final_manim_animation.py")
             with open(filename, 'w') as f:
                 f.write(final_code)
             print(f"\n💾 Code saved to {filename}")

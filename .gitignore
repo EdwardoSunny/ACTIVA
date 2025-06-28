@@ -10,3 +10,6 @@ wheels/
 .venv
 media/
 output/
+
+# Generated code from ACTIVA
+generated_code/

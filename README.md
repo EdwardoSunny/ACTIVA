@@ -54,30 +54,10 @@ The system operates in an iterative loop where the Error Search Agent feeds solu
    export OPENAI_API_KEY="your-api-key-here"
    ```
 
-## 💻 Usage
-
-### Basic Usage
-
-Run the main script with a predefined accounting problem:
-
-```bash
-python main.py
-```
-
 ### Custom Usage
 
 Modify the `task` variable in `main.py` to create animations for your specific accounting concepts:
 
-```python
-task = """
-Please create an animation visualization to explain accrual accounting 
-for Lind Co.'s salaries expense of $10,000 paid every other Friday.
-"""
-```
-
-### Example Use Cases
-
-#### 1. Accrual Accounting Animation
 ```python
 task = """
 Create an animation showing how to calculate accrued salaries expense 
@@ -86,20 +66,7 @@ payment on June 18th and month-end on June 30th.
 """
 ```
 
-#### 2. Depreciation Methods Animation
-```python
-task = """
-Generate an animation demonstrating straight-line vs. declining 
-balance depreciation methods for a $50,000 asset with 5-year life.
-"""
-```
-
 ## 🔧 Configuration
-
-### Environment Variables
-
-- `OPENAI_API_KEY`: Your OpenAI API key for LLM access
-- `MANIM_QUALITY`: Animation quality setting (default: `-pql` for preview quality)
 
 ### Customization Options
 
@@ -137,15 +104,6 @@ ACIVA can generate various types of accounting animations:
 - **Calculation Animations**: Visual representations of complex accounting formulas
 - **Timeline Visualizations**: Temporal aspects of accrual and deferral accounting
 
-## 🔍 Error Handling
-
-The system includes intelligent error recovery:
-
-1. **Automatic Error Detection**: Identifies Manim execution errors
-2. **Solution Search**: Searches for relevant fixes using web search
-3. **Code Revision**: Automatically revises code based on error analysis
-4. **Iterative Improvement**: Continues until successful execution or max attempts reached
-
 ## 🧪 Testing
 
 Run the included example to test the system:
@@ -166,9 +124,6 @@ We welcome contributions! Please see our contributing guidelines:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
@@ -176,13 +131,3 @@ For support and questions:
 - Open an issue on GitHub
 - Check the documentation in the code comments
 - Review the example implementations
-
-## 🙏 Acknowledgments
-
-- Built with [LangGraph](https://github.com/langchain-ai/langgraph) for agent orchestration
-- Powered by [Manim](https://github.com/ManimCommunity/manim) for mathematical animations
-- Enhanced with OpenAI's GPT-4o for intelligent code generation
-
----
-
-**ACIVA** - Transforming accounting education through intelligent visual animations.
