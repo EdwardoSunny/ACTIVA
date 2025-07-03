@@ -5,6 +5,28 @@
 
 ## 🚀 Quick Start
 
+### Install Manim
+
+The main instructions are located on [this official documentation page](https://docs.manim.community/en/stable/installation/uv.html). 
+
+If you are on any Linux distribution, make sure you have `cairo` and `pango` installed.
+
+```bash
+# debian/apt
+sudo apt install build-essential python3-dev libcairo2-dev libpango1.0-dev
+
+# fedora/dnf
+sudo dnf install python3-devel pkg-config cairo-devel pango-devel
+
+# arch/pacman
+sudo pacman -Syu base-devel cairo pango
+```
+
+To check if you installed Manim correctly, run:
+```bash
+manim checkhealth
+```
+
 ### 1. Install Dependencies
 ```bash
 git clone https://github.com/EdwardoSunny/ACTIVA
