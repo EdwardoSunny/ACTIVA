@@ -5,7 +5,7 @@
 
 ## 🚀 Quick Start
 
-### Install Manim
+### 1. Install Manim
 
 The main instructions are located on [this official documentation page](https://docs.manim.community/en/stable/installation/uv.html). 
 
@@ -27,14 +27,14 @@ To check if you installed Manim correctly, run:
 manim checkhealth
 ```
 
-### 1. Install Dependencies
+### 2. Install Dependencies
 ```bash
 git clone https://github.com/EdwardoSunny/ACTIVA
 cd ACTIVA
 pip install -e .
 ```
 
-### 2. Set Up API Access
+### 3. Set Up API Access
 ACTIVA requires an API key from one of the supported LLM providers. You'll need to:
 
 **Get API Keys:**
@@ -48,7 +48,7 @@ python scripts/setup_config.py
 ```
 Choose your preferred provider and enter your API key when prompted.
 
-### 3. Supported Models
+### 4. Supported Models
 ACTIVA works with the following models:
 
 - **OpenAI**: GPT-4o (recommended), GPT-4-turbo, GPT-3.5-turbo
@@ -57,7 +57,7 @@ ACTIVA works with the following models:
 
 The interactive setup will guide you through model selection. For best results, we recommend using the latest models (GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5 Pro).
 
-### 4. Run ACTIVA
+### 5. Run ACTIVA
 **Frontend (Recommended):**
 ```bash
 python scripts/run_frontend.py
